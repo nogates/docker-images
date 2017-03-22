@@ -2,10 +2,14 @@ FROM node:alpine
 
 RUN npm install -g ember-cli runjs
 
-WORKDIR ENV APP_DIR
+ENV LAUNCHER_DIR /usr/local/bin
 
-RUN npm install
+WORKDIR $LAUNCHER_DIR
+
+VOLUME ["/app"]
 
 EXPOSE 4200
 
-ENTRYPOINT run prod
+COPY ./start_app.sh $LAUNCHER_DIR
+
+ENTRYPOINT $LAUNCHER_DIR/start_app.sh
